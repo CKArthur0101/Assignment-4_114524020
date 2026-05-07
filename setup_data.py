@@ -30,7 +30,7 @@ def clean_text(text):
     return text.strip()
 
 def parse_pdf_content(pdf_path, parser_mode="article", use_layout=False):
-    print(f"   📂 Reading {os.path.basename(pdf_path)}...")
+    print(f"    Reading {os.path.basename(pdf_path)}...")
     articles = []
     
     try:
@@ -79,7 +79,7 @@ def parse_pdf_content(pdf_path, parser_mode="article", use_layout=False):
                 articles.append((current_article_num, clean_text(full_content)))
                 
     except Exception as e:
-        print(f"   ❌ Error: {e}")
+        print(f"    Error: {e}")
         return []
 
     return articles
@@ -90,7 +90,7 @@ def main():
     init_db(conn)
     cursor = conn.cursor()
 
-    print(f"🚀 Starting ETL (Refactored for Clean Data)...")
+    print(f" Starting ETL (Refactored for Clean Data)...")
     reg_id_counter = 1
     total = 0
 
@@ -102,9 +102,9 @@ def main():
         extracted = parse_pdf_content(file_path, p_mode, use_layout)
         
         if extracted:
-            print(f"      ✅ {filename}: Saved {len(extracted)} articles.")
+            print(f"       {filename}: Saved {len(extracted)} articles.")
         else:
-            print(f"      ⚠️ WARNING: 0 articles found in {filename}!")
+            print(f"       WARNING: 0 articles found in {filename}!")
 
         for art_num, content in extracted:
             cursor.execute('INSERT INTO articles (reg_id, article_number, content) VALUES (?, ?, ?)',
@@ -116,7 +116,7 @@ def main():
     conn.commit()
     conn.close()
     print("-" * 40)
-    print(f"🎉 Database Ready! Total: {total}")
+    print(f" Database Ready! Total: {total}")
 
 if __name__ == "__main__":
     main()
